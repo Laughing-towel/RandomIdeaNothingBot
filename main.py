@@ -13,15 +13,15 @@ from vc_tracker import VCTracker
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
-TEST_GUILD_ID = os.getenv("TEST_GUILD_ID")
+TEST_GUILD_IDS = [
+    int(guild_id.strip())
+    for guild_id in os.getenv("TEST_GUILD_IDS", "").split(",")
+    if guild_id.strip()
+]
 
 
 if not TOKEN:
     raise RuntimeError("DISCORD_TOKEN is missing from .env")
-
-if TEST_GUILD_ID:
-    TEST_GUILD_ID = int(TEST_GUILD_ID)
-
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -77,18 +77,18 @@ class RandomIdeaNothingBot(discord.Client):
     async def setup_hook(self):
         register_nothing_commands(self.tree)
 
-        if TEST_GUILD_ID:
-            guild = discord.Object(id=TEST_GUILD_ID)
+        if TEST_GUILD_IDS:
+            for guild_id in TEST_GUILD_IDS:
+                guild = discord.Object(id=guild_id)
 
-            self.tree.copy_global_to(guild=guild)
+                self.tree.copy_global_to(guild=guild)
 
-            synced = await self.tree.sync(guild=guild)
+                synced = await self.tree.sync(guild=guild)
 
-            print(
-                f"Synced {len(synced)} commands "
-                f"to test server {TEST_GUILD_ID}"
-            )
-
+                print(
+                    f"Synced {len(synced)} commands "
+                    f"to server {guild_id}"
+                )
         else:
             synced = await self.tree.sync()
 
