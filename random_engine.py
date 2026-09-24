@@ -49,19 +49,19 @@ class RandomEngine:
         # -----------------------------------------------------
 
         self.actions = [
-            (self.do_nothing, 26),
+            (self.do_nothing, 40),
 
-            (self.send_random_fact, 25),
-            (self.send_blank, 4),
+            (self.send_random_fact, 30),
+            (self.send_blank, 3),
 
-            (self.react_to_recent_message, 12),
-            (self.ask_for_idea, 8),
-            (self.send_helpful_lie, 4),
+            (self.react_to_recent_message, 8),
+            (self.ask_for_idea, 6),
+            (self.send_helpful_lie, 5),
 
-            (self.join_voice, 5),
+            (self.join_voice, 3),
 
-            (self.change_nickname, 4),
-            (self.change_activity, 3),
+            (self.change_nickname, 2),
+            (self.change_activity, 1.5),
 
             (self.reply_to_old_message, 2),
 
